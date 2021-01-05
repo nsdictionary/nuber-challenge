@@ -6,7 +6,7 @@ import { PodcastsService } from './podcasts/podcasts.service';
 
 @Module({
   imports: [],
-  controllers: [PodcastsController],
-  providers: [PodcastsService],
+  controllers: [AppController, PodcastsController],
+  providers: [AppService, PodcastsService],
 })
 export class AppModule {}
