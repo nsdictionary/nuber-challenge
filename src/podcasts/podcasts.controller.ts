@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { PodcastsService } from './podcasts.service';
 import { Podcast } from './entities/podcast.entity';
+import Episode from './entities/episode.entity';
 
 @Controller('podcasts')
 export class PodcastsController {
@@ -40,13 +41,13 @@ export class PodcastsController {
   }
 
   @Get('/:id/episodes')
-  getEpisode(@Param('id') podcastId: string): string {
-    return 'This will return episodes';
+  getEpisodes(@Param('id') podcastId: string): Episode[] {
+    return this.podcastsService.getEpisodes(+podcastId);
   }
 
   @Post('/:id/episodes')
-  createEpisode(@Param('id') podcastId: string): string {
-    return 'This will create a episode';
+  createEpisode(@Param('id') podcastId: string, @Body() data): void {
+    return this.podcastsService.createEpisode(+podcastId, data);
   }
 
   @Patch('/:id/episodes/:episodeId')
