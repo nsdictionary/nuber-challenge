@@ -1,30 +1,42 @@
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { PodcastsService } from './podcasts.service';
+import { Podcast } from './entities/podcast.entity';
 
 @Controller('podcasts')
 export class PodcastsController {
+  constructor(private readonly podcastsService: PodcastsService) {}
+
   @Get()
-  getAll(): string {
-    return 'This will return all podcasts';
+  getAll(): Podcast[] {
+    return this.podcastsService.getAll();
   }
 
   @Post()
-  create(): string {
-    return 'This will create a podcast';
+  create(@Body() data): void {
+    return this.podcastsService.create(data);
   }
 
   @Get('/:id')
-  getOne(@Param('id') podcastId: string): string {
-    return `This will return one podcast with the id: ${podcastId}`;
+  getOne(@Param('id') podcastId: string): Podcast {
+    return this.podcastsService.getOne(+podcastId);
   }
 
   @Patch('/:id')
-  patch(@Param('id') podcastId: string): string {
-    return `This will patch a podcast with the id: ${podcastId}`;
+  patch(@Param('id') podcastId: string, @Body() data): void {
+    return this.podcastsService.update(+podcastId, data);
   }
 
   @Delete('/:id')
-  remove(@Param('id') podcastId: string): string {
-    return `This will delete a podcast with the id: ${podcastId}`;
+  remove(@Param('id') podcastId: string): void {
+    return this.podcastsService.deleteOne(+podcastId);
   }
 
   @Get('/:id/episodes')

@@ -4,3 +4,5 @@ class Episode {
   content: string;
   podcast_id: number;
 }
+
+export default Episode;
