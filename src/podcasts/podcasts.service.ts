@@ -54,23 +54,36 @@ export class PodcastsService {
     data.podcast_id = podcastId;
 
     const prevEpisodes = podcast.episodes ? podcast.episodes : [];
+    data.id = prevEpisodes.length + 1;
 
     this.update(podcastId, {
       episodes: [...prevEpisodes, data],
     });
   }
 
-  // patchEpisode(
-  //   @Param('id') podcastId: string,
-  //   @Param('episodeId') episodeId: string,
-  // ): string {
-  //   return 'This will patch a episode';
-  // }
-  //
-  // deleteEpisode(
-  //   @Param('id') podcastId: string,
-  //   @Param('episodeId') episodeId: string,
-  // ): string {
-  //   return 'This will delete a episode';
-  // }
+  patchEpisode(podcastId: number, episodeId: number, data): void {
+    const podcast = this.getOne(podcastId);
+    const prevEpisodes = podcast.episodes ? podcast.episodes : [];
+
+    let [targetEpisode] = prevEpisodes.filter(
+      (episode) => episode.id === episodeId,
+    );
+    targetEpisode = { ...targetEpisode, ...data };
+
+    this.update(podcastId, {
+      episodes: [
+        ...prevEpisodes.filter((episode) => episode.id !== episodeId),
+        targetEpisode,
+      ],
+    });
+  }
+
+  deleteEpisode(podcastId: number, episodeId: number): void {
+    const podcast = this.getOne(podcastId);
+    const prevEpisodes = podcast.episodes ? podcast.episodes : [];
+
+    this.update(podcastId, {
+      episodes: prevEpisodes.filter((episode) => episode.id !== episodeId),
+    });
+  }
 }

@@ -54,15 +54,16 @@ export class PodcastsController {
   patchEpisode(
     @Param('id') podcastId: string,
     @Param('episodeId') episodeId: string,
-  ): string {
-    return 'This will patch a episode';
+    @Body() data,
+  ): void {
+    return this.podcastsService.patchEpisode(+podcastId, +episodeId, data);
   }
 
   @Delete('/:id/episodes/:episodeId')
   deleteEpisode(
     @Param('id') podcastId: string,
     @Param('episodeId') episodeId: string,
-  ): string {
-    return 'This will delete a episode';
+  ): void {
+    return this.podcastsService.deleteEpisode(+podcastId, +episodeId);
   }
 }
