@@ -1,17 +1,35 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { ArgsType, Field, ObjectType, InputType } from '@nestjs/graphql';
+import { CoreOutput } from './output.dto';
 import { Podcast } from '../entities/podcast.entity';
+import { IsNumber } from 'class-validator';
+import { Episode } from '../entities/episode.entity';
 
 @InputType()
-export class PodcastInput {
-  @Field(() => Number)
-  podcastId: number;
+export class PodcastSearchInput {
+  @Field((type) => Number)
+  @IsNumber()
+  id: number;
 }
 
 @ObjectType()
-export class PodcastOutput {
-  @Field(() => Podcast, { nullable: true })
+export class PodcastOutput extends CoreOutput {
+  @Field((type) => Podcast, { nullable: true })
   podcast?: Podcast;
+}
 
-  @Field(() => String, { nullable: true })
-  err?: string;
+@ObjectType()
+export class EpisodesOutput extends CoreOutput {
+  @Field((type) => [Episode], { nullable: true })
+  episodes?: Episode[];
+}
+
+@InputType()
+export class EpisodesSearchInput {
+  @Field((type) => Number)
+  @IsNumber()
+  podcastId: number;
+
+  @Field((type) => Number)
+  @IsNumber()
+  episodeId: number;
 }

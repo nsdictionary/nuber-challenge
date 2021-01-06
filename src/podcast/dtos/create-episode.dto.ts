@@ -1,14 +1,14 @@
-import { CreatePodcastInput } from './create-podcast.dto';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
-
+import { CreatePodcastDto } from './create-podcast.dto';
+import { InputType, Field } from '@nestjs/graphql';
+import { IsString, IsNumber } from 'class-validator';
+import { PodcastSearchInput } from './podcast.dto';
 @InputType()
-export class CreateEpisodeInput extends CreatePodcastInput {}
+export class CreateEpisodeDto extends PodcastSearchInput {
+  @Field((_) => String)
+  @IsString()
+  readonly title: string;
 
-@ObjectType()
-export class CreateEpisodeOutput {
-  @Field(() => Number, { nullable: true })
-  episodeId?: number;
-
-  @Field(() => String, { nullable: true })
-  err?: string;
+  @Field((_) => String)
+  @IsString()
+  readonly category: string;
 }

@@ -1,19 +1,16 @@
-import {
-  Field,
-  InputType,
-  ObjectType,
-  PartialType,
-  PickType,
-} from '@nestjs/graphql';
-import { Episode } from '../entities/episode.entity';
+import { InputType, Field } from '@nestjs/graphql';
+import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { EpisodesSearchInput } from './podcast.dto';
 
 @InputType()
-export class UpdateEpisodeInput extends PartialType(
-  PickType(Episode, ['title', 'category', 'rating']),
-) {}
+export class UpdateEpisodeDto extends EpisodesSearchInput {
+  @Field((_) => String, { nullable: true })
+  @IsString()
+  @IsOptional()
+  readonly title?: string;
 
-@ObjectType()
-export class UpdateEpisodeOutput {
-  @Field(() => String, { nullable: true })
-  err?: string;
+  @Field((_) => String, { nullable: true })
+  @IsString()
+  @IsOptional()
+  readonly category?: string;
 }
