@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateEpisodeDto } from './dtos/create-episode.dto';
+import { CreateEpisodeInput } from './dtos/create-episode.dto';
 import { CreatePodcastInput } from './dtos/create-podcast.dto';
 import { UpdateEpisodeDto } from './dtos/update-episode.dto';
 import { UpdatePodcastInput } from './dtos/update-podcast.dto';
@@ -57,7 +57,7 @@ export class EpisodeController {
   @Post('/episodes')
   createEpisode(
     @Param('id') podcastId: string,
-    @Body() createEpisodeDto: CreateEpisodeDto,
+    @Body() createEpisodeDto: CreateEpisodeInput,
   ) {
     return this.podcastService.createEpisode(podcastId, createEpisodeDto);
   }

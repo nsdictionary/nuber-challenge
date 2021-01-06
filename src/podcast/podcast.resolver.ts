@@ -12,6 +12,11 @@ import {
   UpdatePodcastInput,
   UpdatePodcastOutput,
 } from './dtos/update-podcast.dto';
+import { AllEpisodeOutput } from './dtos/all-episode.dto';
+import {
+  CreateEpisodeInput,
+  CreateEpisodeOutput,
+} from './dtos/create-episode.dto';
 
 @Resolver(() => Podcast)
 export class PodcastResolver {
@@ -45,5 +50,18 @@ export class PodcastResolver {
     @Args('data') data: UpdatePodcastInput,
   ): UpdatePodcastOutput {
     return this.podcastService.updatePodcast(podcastId.toString(), data);
+  }
+
+  @Query(() => AllEpisodeOutput)
+  episodes(@Args('id') podcastId: number): AllEpisodeOutput {
+    return this.podcastService.getEpisodes(podcastId.toString());
+  }
+
+  @Mutation(() => CreateEpisodeOutput)
+  createEpisode(
+    @Args('id') podcastId: number,
+    @Args('data') data: CreateEpisodeInput,
+  ): CreateEpisodeOutput {
+    return this.podcastService.createEpisode(podcastId.toString(), data);
   }
 }

@@ -3,7 +3,7 @@ import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 @InputType('EpisodeInputType', { isAbstract: true })
 @ObjectType()
 export class Episode {
-  @Field(() => Int)
+  @Field(() => Number)
   id: number;
 
   @Field(() => String)

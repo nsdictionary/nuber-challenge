@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEpisodeDto } from './dtos/create-episode.dto';
+import {
+  CreateEpisodeInput,
+  CreateEpisodeOutput,
+} from './dtos/create-episode.dto';
 import {
   CreatePodcastInput,
   CreatePodcastOutput,
@@ -14,6 +17,7 @@ import { Podcast } from './entities/podcast.entity';
 import { AllPodcastOutput } from './dtos/all-podcast.dto';
 import { PodcastOutput } from './dtos/podcast.dto';
 import { DeletePodcastOutput } from './dtos/delete-podcast.dto';
+import { AllEpisodeOutput } from './dtos/all-episode.dto';
 
 @Injectable()
 export class PodcastsService {
@@ -63,9 +67,7 @@ export class PodcastsService {
     return { err: null };
   }
 
-  getEpisodes(
-    podcastId: string,
-  ): { episodes: Episode[] | null; err: string | null } {
+  getEpisodes(podcastId: string): AllEpisodeOutput {
     const { podcast, err } = this.getPodcast(podcastId);
     if (err) {
       return { episodes: null, err };
@@ -75,8 +77,8 @@ export class PodcastsService {
 
   createEpisode(
     podcastId: string,
-    { title, category }: CreateEpisodeDto,
-  ): { episodeId: number | null; err: string | null } {
+    { title, category }: CreateEpisodeInput,
+  ): CreateEpisodeOutput {
     const { podcast, err: findErr } = this.getPodcast(podcastId);
     if (findErr) {
       return { episodeId: null, err: findErr };
