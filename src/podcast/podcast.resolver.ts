@@ -23,6 +23,10 @@ import {
   UpdateEpisodeInput,
   UpdateEpisodeOutput,
 } from './dtos/update-episode.dto';
+import {
+  DeleteEpisodeInput,
+  DeleteEpisodeOutput,
+} from './dtos/delete-episode.dto';
 
 @Resolver(() => Podcast)
 export class PodcastResolver {
@@ -94,6 +98,16 @@ export class EpisodeResolver {
       podcastId.toString(),
       episodeId.toString(),
       data,
+    );
+  }
+
+  @Mutation(() => DeleteEpisodeOutput)
+  deleteEpisode(
+    @Args('data') { podcastId, episodeId }: DeleteEpisodeInput,
+  ): DeleteEpisodeOutput {
+    return this.podcastService.deleteEpisode(
+      podcastId.toString(),
+      episodeId.toString(),
     );
   }
 }
