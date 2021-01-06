@@ -17,6 +17,8 @@ import {
   CreateEpisodeInput,
   CreateEpisodeOutput,
 } from './dtos/create-episode.dto';
+import { Episode } from './entities/episode.entity';
+import { EpisodeInput, EpisodeOutput } from './dtos/episode.dto';
 
 @Resolver(() => Podcast)
 export class PodcastResolver {
@@ -51,10 +53,23 @@ export class PodcastResolver {
   ): UpdatePodcastOutput {
     return this.podcastService.updatePodcast(podcastId.toString(), data);
   }
+}
+
+@Resolver(() => Episode)
+export class EpisodeResolver {
+  constructor(private readonly podcastService: PodcastsService) {}
 
   @Query(() => AllEpisodeOutput)
   episodes(@Args('id') podcastId: number): AllEpisodeOutput {
     return this.podcastService.getEpisodes(podcastId.toString());
+  }
+
+  @Query(() => EpisodeOutput)
+  episode(@Args('data') { episodeId, podcastId }: EpisodeInput): EpisodeOutput {
+    return this.podcastService.findEpisode(
+      episodeId.toString(),
+      podcastId.toString(),
+    );
   }
 
   @Mutation(() => CreateEpisodeOutput)
