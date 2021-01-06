@@ -7,6 +7,7 @@ import {
   CreatePodcastOutput,
 } from './dtos/create-podcast.dto';
 import { PodcastInput, PodcastOutput } from './dtos/podcast.dto';
+import { DeletePodcastOutput } from './dtos/delete-podcast.dto';
 
 @Resolver(() => Podcast)
 export class PodcastResolver {
@@ -25,5 +26,12 @@ export class PodcastResolver {
   @Mutation(() => CreatePodcastOutput)
   createPodcast(@Args('data') data: CreatePodcastDto): CreatePodcastOutput {
     return this.podcastService.createPodcast(data);
+  }
+
+  @Mutation(() => DeletePodcastOutput)
+  deletePodcast(
+    @Args('data') { podcastId }: PodcastInput,
+  ): DeletePodcastOutput {
+    return this.podcastService.deletePodcast(podcastId.toString());
   }
 }
