@@ -3,7 +3,7 @@ import { Episode } from './episode.entity';
 
 @ObjectType()
 export class Podcast {
-  @Field(() => Int)
+  @Field(() => Number)
   id: number;
 
   @Field(() => String)

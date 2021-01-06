@@ -1,29 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEpisodeDto } from './dtos/create-episode.dto';
-import { CreatePodcastDto } from './dtos/create-podcast.dto';
+import {
+  CreatePodcastDto,
+  CreatePodcastOutput,
+} from './dtos/create-podcast.dto';
 import { UpdateEpisodeDto } from './dtos/update-episode.dto';
 import { UpdatePodcastDto } from './dtos/update-podcast.dto';
 import { Episode } from './entities/episode.entity';
 import { Podcast } from './entities/podcast.entity';
+import { AllPodcastOutput } from './dtos/all-podcast.dto';
+import { PodcastOutput } from './dtos/podcast.dto';
 
 @Injectable()
 export class PodcastsService {
   private podcasts: Podcast[] = [];
 
-  getAllPodcasts(): { podcasts: Podcast[]; err: string | null } {
+  getAllPodcasts(): AllPodcastOutput {
     return { podcasts: this.podcasts, err: null };
   }
 
-  createPodcast({
-    title,
-    category,
-  }: CreatePodcastDto): { id: number; err: string | null } {
+  createPodcast({ title, category }: CreatePodcastDto): CreatePodcastOutput {
     const id = Date.now();
     this.podcasts.push({ id, title, category, rating: 0, episodes: [] });
     return { id, err: null };
   }
 
-  getPodcast(id: string): { podcast: Podcast | null; err: string | null } {
+  getPodcast(id: string): PodcastOutput {
     const foundPodcasts = this.podcasts.filter((podcast) => podcast.id === +id);
     if (foundPodcasts.length === 0) {
       return { podcast: null, err: 'Podcast not found.' };
