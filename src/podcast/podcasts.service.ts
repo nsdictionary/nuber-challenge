@@ -7,7 +7,7 @@ import {
   CreatePodcastInput,
   CreatePodcastOutput,
 } from './dtos/create-podcast.dto';
-import { UpdateEpisodeDto } from './dtos/update-episode.dto';
+import { UpdateEpisodeInput } from './dtos/update-episode.dto';
 import {
   UpdatePodcastInput,
   UpdatePodcastOutput,
@@ -127,7 +127,7 @@ export class PodcastsService {
   updateEpisode(
     podcastId: string,
     episodeId: string,
-    updateEpisodeDto: UpdateEpisodeDto,
+    updateEpisodeDto: UpdateEpisodeInput,
   ): { err: string | null } {
     const { episode, err: findEpisodeErr } = this.findEpisode(
       podcastId,

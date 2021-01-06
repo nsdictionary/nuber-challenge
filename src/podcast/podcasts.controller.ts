@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateEpisodeInput } from './dtos/create-episode.dto';
 import { CreatePodcastInput } from './dtos/create-podcast.dto';
-import { UpdateEpisodeDto } from './dtos/update-episode.dto';
+import { UpdateEpisodeInput } from './dtos/update-episode.dto';
 import { UpdatePodcastInput } from './dtos/update-podcast.dto';
 import { PodcastsService } from './podcasts.service';
 
@@ -66,7 +66,7 @@ export class EpisodeController {
   updateEpisode(
     @Param('id') podcastId: string,
     @Param('episodeId') episodeId: string,
-    @Body() updateEpisodeDto: UpdateEpisodeDto,
+    @Body() updateEpisodeDto: UpdateEpisodeInput,
   ) {
     return this.podcastService.updateEpisode(
       podcastId,
