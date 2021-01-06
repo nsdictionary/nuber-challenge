@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEpisodeDto } from './dtos/create-episode.dto';
 import {
-  CreatePodcastDto,
+  CreatePodcastInput,
   CreatePodcastOutput,
 } from './dtos/create-podcast.dto';
 import { UpdateEpisodeDto } from './dtos/update-episode.dto';
-import { UpdatePodcastDto } from './dtos/update-podcast.dto';
+import {
+  UpdatePodcastInput,
+  UpdatePodcastOutput,
+} from './dtos/update-podcast.dto';
 import { Episode } from './entities/episode.entity';
 import { Podcast } from './entities/podcast.entity';
 import { AllPodcastOutput } from './dtos/all-podcast.dto';
 import { PodcastOutput } from './dtos/podcast.dto';
+import { DeletePodcastOutput } from './dtos/delete-podcast.dto';
 
 @Injectable()
 export class PodcastsService {
@@ -19,7 +23,7 @@ export class PodcastsService {
     return { podcasts: this.podcasts, err: null };
   }
 
-  createPodcast({ title, category }: CreatePodcastDto): CreatePodcastOutput {
+  createPodcast({ title, category }: CreatePodcastInput): CreatePodcastOutput {
     const id = Date.now();
     this.podcasts.push({ id, title, category, rating: 0, episodes: [] });
     return { id, err: null };
@@ -38,15 +42,15 @@ export class PodcastsService {
     }
   }
 
-  deletePodcast(id: string): { err: string | null } {
+  deletePodcast(id: string): DeletePodcastOutput {
     this.podcasts = this.podcasts.filter((p) => p.id !== +id);
     return { err: null };
   }
 
   updatePodcast(
     id: string,
-    updatePodcastDto: UpdatePodcastDto,
-  ): { err: string | null } {
+    updatePodcastDto: UpdatePodcastInput,
+  ): UpdatePodcastOutput {
     const { podcast, err: findErr } = this.getPodcast(id);
     if (findErr) {
       return { err: findErr };

@@ -1,3 +1,3 @@
-import { CreatePodcastDto } from './create-podcast.dto';
+import { CreatePodcastInput } from './create-podcast.dto';
 
-export class CreateEpisodeDto extends CreatePodcastDto {}
+export class CreateEpisodeDto extends CreatePodcastInput {}
