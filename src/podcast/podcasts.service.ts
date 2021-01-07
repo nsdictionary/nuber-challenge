@@ -81,15 +81,15 @@ export class PodcastsService {
     if (!ok) {
       return { ok, error };
     }
-    const newEpisode: Episode = {
-      id: podcast.episodes.length + 1,
-      title,
-      category,
-    };
-    this.updatePodcast({
-      id: podcastId,
-      episodes: [...podcast.episodes, newEpisode],
-    });
+    // const newEpisode: Episode = {
+    //   id: podcast.episodes.length + 1,
+    //   title,
+    //   category,
+    // };
+    // this.updatePodcast({
+    //   id: podcastId,
+    //   episodes: [...podcast.episodes, newEpisode],
+    // });
 
     return { ok: true };
   }
