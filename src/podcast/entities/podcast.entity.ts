@@ -4,18 +4,18 @@ import { IsString, IsNumber } from 'class-validator';
 
 @ObjectType()
 export class Podcast {
-  @Field((_) => Number)
+  @Field(() => Number)
   @IsNumber()
   id: number;
-  @Field((_) => String)
+  @Field(() => String)
   @IsString()
   title: string;
-  @Field((_) => String)
+  @Field(() => String)
   @IsString()
   category: string;
-  @Field((_) => Number)
+  @Field(() => Number)
   @IsNumber()
   rating: number;
-  @Field((_) => [Episode])
+  @Field(() => [Episode])
   episodes: Episode[];
 }

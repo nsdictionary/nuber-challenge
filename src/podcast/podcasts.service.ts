@@ -8,7 +8,6 @@ import { Podcast } from './entities/podcast.entity';
 import { CoreOutput } from './dtos/output.dto';
 import {
   PodcastOutput,
-  PodcastSearchInput,
   EpisodesOutput,
   EpisodesSearchInput,
 } from './dtos/podcast.dto';
