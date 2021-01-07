@@ -14,12 +14,9 @@ import {
 } from './dtos/podcast.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { first } from 'rxjs/operators';
 
 @Injectable()
 export class PodcastsService {
-  private podcasts: Podcast[] = [];
-
   constructor(
     @InjectRepository(Podcast)
     private readonly podcastRepository: Repository<Podcast>,
