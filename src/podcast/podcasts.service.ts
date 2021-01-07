@@ -75,7 +75,7 @@ export class PodcastsService {
       const podcast = await this.podcastRepository.findOne(id);
 
       if (!podcast) {
-        return { ok: false, error: 'Could not found category' };
+        return { ok: false, error: 'Could not found podcast' };
       }
 
       await this.podcastRepository.save({ id, ...rest });
@@ -85,66 +85,100 @@ export class PodcastsService {
     }
   }
 
-  getEpisodes(podcastId: number): EpisodesOutput {
-    // const { podcast, ok, error } = this.getPodcast(podcastId);
-    // if (!ok) {
-    //   return { ok, error };
-    // }
-    return { ok: true };
+  async getEpisodes(podcastId: number): Promise<EpisodesOutput> {
+    try {
+      const podcast = await this.podcastRepository.findOne(podcastId);
+
+      if (!podcast) {
+        return { ok: false, error: 'Could not found podcast' };
+      }
+
+      return { ok: true, episodes: podcast.episodes };
+    } catch (error) {
+      return { ok: false, error };
+    }
   }
 
-  createEpisode({
+  async createEpisode({
     id: podcastId,
     title,
     category,
-  }: CreateEpisodeDto): CoreOutput {
-    // const { podcast, ok, error } = this.getPodcast(podcastId);
-    // if (!ok) {
-    //   return { ok, error };
-    // }
-    // const newEpisode: Episode = {
-    //   id: podcast.episodes.length + 1,
-    //   title,
-    //   category,
-    // };
-    // this.updatePodcast({
-    //   id: podcastId,
-    //   episodes: [...podcast.episodes, newEpisode],
-    // });
+  }: CreateEpisodeDto): Promise<CoreOutput> {
+    try {
+      const podcast = await this.podcastRepository.findOne(podcastId);
+
+      if (!podcast) {
+        return { ok: false, error: 'Could not found podcast' };
+      }
+
+      const episode = await this.episodeRepository.create({
+        podcast,
+        title,
+        category,
+      });
+
+      await this.episodeRepository.save(episode);
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error };
+    }
 
     return { ok: true };
   }
 
-  deleteEpisode({ podcastId, episodeId }: EpisodesSearchInput): CoreOutput {
-    // const { podcast, error, ok } = this.getPodcast(podcastId);
-    // if (!ok) {
-    //   return { ok, error };
-    // }
-    // this.updatePodcast({
-    //   id: podcastId,
-    //   episodes: podcast.episodes.filter((episode) => episode.id !== episodeId),
-    // });
+  async deleteEpisode({
+    podcastId,
+    episodeId,
+  }: EpisodesSearchInput): Promise<CoreOutput> {
+    try {
+      const podcast = await this.podcastRepository.findOne(podcastId);
 
-    return { ok: true };
+      if (!podcast) {
+        return { ok: false, error: 'Could not found podcast' };
+      }
+
+      const [episode] = podcast.episodes.filter((v) => v.id === episodeId);
+
+      if (!episode) {
+        return { ok: false, error: 'Could not found episode' };
+      }
+
+      await this.episodeRepository.delete(episode.id);
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error };
+    }
   }
 
-  updateEpisode({
+  async updateEpisode({
     podcastId,
     episodeId,
     ...rest
-  }: UpdateEpisodeDto): CoreOutput {
-    // const { podcast, error, ok } = this.getPodcast(podcastId);
-    // if (!ok) {
-    //   return { ok, error };
-    // }
-    // const episodeIdx = podcast.episodes.findIndex(({ id }) => id === episodeId);
-    // const newEpisode = { ...podcast.episodes[episodeIdx], ...rest };
-    // this.deleteEpisode({ podcastId, episodeId });
-    // const { podcast: changedPodcast } = this.getPodcast(podcastId);
-    // this.updatePodcast({
-    //   id: podcastId,
-    //   episodes: [...changedPodcast.episodes, newEpisode],
-    // });
-    return { ok: true };
+  }: UpdateEpisodeDto): Promise<CoreOutput> {
+    try {
+      const podcast = await this.podcastRepository.findOne(podcastId);
+
+      if (!podcast) {
+        return { ok: false, error: 'Could not found podcast' };
+      }
+
+      const [episode] = podcast.episodes.filter((v) => v.id === episodeId);
+
+      if (!episode) {
+        return { ok: false, error: 'Could not found episode' };
+      }
+
+      await this.episodeRepository.save([
+        {
+          id: episode.id,
+          ...rest,
+        },
+      ]);
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error };
+    }
   }
 }

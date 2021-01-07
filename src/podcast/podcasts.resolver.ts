@@ -60,24 +60,28 @@ export class EpisodeResolver {
   @Query(() => EpisodesOutput)
   getEpisodes(
     @Args('input') podcastSearchInput: PodcastSearchInput,
-  ): EpisodesOutput {
+  ): Promise<EpisodesOutput> {
     return this.podcastService.getEpisodes(podcastSearchInput.id);
   }
 
   @Mutation(() => CoreOutput)
-  createEpisode(@Args('input') createEpisodeDto: CreateEpisodeDto): CoreOutput {
+  createEpisode(
+    @Args('input') createEpisodeDto: CreateEpisodeDto,
+  ): Promise<CoreOutput> {
     return this.podcastService.createEpisode(createEpisodeDto);
   }
 
   @Mutation(() => CoreOutput)
-  updateEpisode(@Args('input') updateEpisodeDto: UpdateEpisodeDto) {
+  updateEpisode(
+    @Args('input') updateEpisodeDto: UpdateEpisodeDto,
+  ): Promise<CoreOutput> {
     return this.podcastService.updateEpisode(updateEpisodeDto);
   }
 
   @Mutation(() => CoreOutput)
   deleteEpisode(
     @Args('input') episodesSearchInput: EpisodesSearchInput,
-  ): CoreOutput {
+  ): Promise<CoreOutput> {
     return this.podcastService.deleteEpisode(episodesSearchInput);
   }
 }
