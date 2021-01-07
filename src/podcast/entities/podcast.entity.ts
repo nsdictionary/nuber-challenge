@@ -22,10 +22,10 @@ export class Podcast {
   @IsString()
   category: string;
 
-  @Field(() => Number)
-  @Column()
+  @Field(() => Number, { nullable: true })
+  @Column({ nullable: true })
   @IsNumber()
-  rating: number;
+  rating?: number;
 
   @Field(() => [Episode])
   @OneToMany(() => Episode, (episode) => episode.podcast, { eager: true })

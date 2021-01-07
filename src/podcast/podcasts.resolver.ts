@@ -8,6 +8,7 @@ import {
   PodcastOutput,
   EpisodesOutput,
   EpisodesSearchInput,
+  AllPodcastOutput,
 } from './dtos/podcast.dto';
 import { UpdatePodcastDto } from './dtos/update-podcast.dto';
 import { Episode } from './entities/episode.entity';
@@ -18,28 +19,36 @@ import { UpdateEpisodeDto } from './dtos/update-episode.dto';
 export class PodcastsResolver {
   constructor(private readonly podcastsService: PodcastsService) {}
 
-  @Query(() => [Podcast])
-  getAllPodcasts() {
+  @Query(() => AllPodcastOutput)
+  getAllPodcasts(): Promise<AllPodcastOutput> {
     return this.podcastsService.getAllPodcasts();
   }
 
   @Mutation(() => CoreOutput)
-  createPodcast(@Args('input') createPodcastDto: CreatePodcastDto): CoreOutput {
+  createPodcast(
+    @Args('input') createPodcastDto: CreatePodcastDto,
+  ): Promise<CoreOutput> {
     return this.podcastsService.createPodcast(createPodcastDto);
   }
 
   @Query(() => PodcastOutput)
-  getPodcast(@Args('input') podcastSearchInput: PodcastSearchInput) {
+  getPodcast(
+    @Args('input') podcastSearchInput: PodcastSearchInput,
+  ): Promise<PodcastOutput> {
     return this.podcastsService.getPodcast(podcastSearchInput.id);
   }
 
   @Mutation(() => CoreOutput)
-  deletePodcast(@Args('input') podcastSearchInput: PodcastSearchInput) {
+  deletePodcast(
+    @Args('input') podcastSearchInput: PodcastSearchInput,
+  ): Promise<CoreOutput> {
     return this.podcastsService.deletePodcast(podcastSearchInput.id);
   }
 
   @Mutation(() => CoreOutput)
-  updatePodcast(@Args('input') updatePodcastDto: UpdatePodcastDto): CoreOutput {
+  updatePodcast(
+    @Args('input') updatePodcastDto: UpdatePodcastDto,
+  ): Promise<CoreOutput> {
     return this.podcastsService.updatePodcast(updatePodcastDto);
   }
 }

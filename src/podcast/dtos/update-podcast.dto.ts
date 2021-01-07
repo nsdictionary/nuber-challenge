@@ -9,7 +9,7 @@ export class UpdatePodcastDto extends PodcastSearchInput {
   @Field(() => String, { nullable: true })
   @IsString()
   @IsOptional()
-  readonly title?: string;
+  title?: string;
 
   @Field(() => String, { nullable: true })
   @IsString()
@@ -20,7 +20,4 @@ export class UpdatePodcastDto extends PodcastSearchInput {
   @IsOptional()
   @IsNumber()
   rating?: number;
-
-  @Field(() => [Episode], { nullable: true })
-  episodes?: Episode[];
 }

@@ -12,6 +12,12 @@ export class PodcastSearchInput {
 }
 
 @ObjectType()
+export class AllPodcastOutput extends CoreOutput {
+  @Field(() => [Podcast], { nullable: true })
+  podcasts?: Podcast[];
+}
+
+@ObjectType()
 export class PodcastOutput extends CoreOutput {
   @Field(() => Podcast, { nullable: true })
   podcast?: Podcast;
